@@ -20,8 +20,8 @@ def input_pdf_text(uploaded_file):
     return text
 
 def get_summarization(pdf_content):
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash",api_key=GOOGLE_API_KEY,temperature=0.0)
-    prompt_template = "Write a concise summary in 100 words of the following:\\n\\n{context}"  
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash",api_key=GOOGLE_API_KEY,temperature=0.5)
+    prompt_template = "Write a concise summary of the following context:\\n\\n{context}"  
     prompt = PromptTemplate(  
         input_variables=["context"], template=prompt_template  
     )
@@ -33,7 +33,7 @@ def get_summarization(pdf_content):
 ### Streamlit App
 
 st.set_page_config(page_title="SummarizeIt")
-st.header("SummarizeIt - Quick, Clear, Concise PDF Summaries in Seconds")
+st.header("SummarizeIt: Quick, Clear, Concise PDF Summaries in Seconds")
 uploaded_file=st.file_uploader("Upload PDF to Summarize",type=["pdf"])
 
 if uploaded_file is not None:
@@ -45,7 +45,7 @@ if submit:
     if uploaded_file is not None:
         pdf_content=input_pdf_text(uploaded_file)
         response=get_summarization(pdf_content)
-        st.subheader("The Repsonse is")
+        st.subheader("The summary of the uploaded file is:")
         st.write(response)
     else:
         st.write("Please uplaod the resume")
